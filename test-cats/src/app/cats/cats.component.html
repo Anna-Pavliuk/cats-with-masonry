@@ -1,0 +1,38 @@
+<form [formGroup]="catForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Breeds</mat-label>
+      <mat-select formControlName="breeds" (selectionChange)="loadCatImages()">
+        <mat-option [value]='null'>All</mat-option>
+        <mat-option *ngFor="let breed of breeds$ | async" [value]="breed.id">
+          {{ breed.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="ms-3">
+      <mat-select formControlName="limit" (selectionChange)="loadCatImages()">
+        <mat-option *ngFor="let count of _counts" [value]="count">
+          {{ count }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+</form>
+
+<div class="container"  *ngIf="cats$ | async as cats">
+    <!-- <div class="row"> -->
+    <ngx-masonry>
+      <div ngxMasonryItem class="masonry-item" *ngFor="let cat of cats"
+       
+        [@tadaAnimation]>
+        <!-- class="col-md-4 mb-4" -->
+        <mat-card>
+          <img [src]="cat.url" class="card-img-top" alt="Cat Image">
+          <!-- <mat-card-actions>
+            <button mat-button>Like ❤️</button>
+            <button mat-button>share 👍</button>
+            </mat-card-actions> -->
+        </mat-card>
+      </div>
+    </ngx-masonry>
+    <!-- </div> -->
+  </div>
